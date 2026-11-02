@@ -312,7 +312,8 @@ export default function HackathonDetail() {
   }
 
   return (
-    <main className="mx-auto grid w-full max-w-6xl gap-6 p-4 sm:p-8 lg:grid-cols-[1fr_300px]">
+    <div className="@container w-full">
+    <main className="mx-auto grid w-full max-w-6xl gap-6 p-4 sm:p-8 @4xl:grid-cols-[1fr_280px]">
       <div className="flex min-w-0 flex-col gap-5">
         <Link to="/hackathons" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
           <IconArrowLeft className="size-4" /> Hackathons
@@ -385,7 +386,7 @@ export default function HackathonDetail() {
         </div>
       </div>
 
-      <aside className="flex flex-col gap-3 lg:sticky lg:top-6 lg:self-start">
+      <aside className="flex flex-col gap-3 @4xl:sticky @4xl:top-6 @4xl:self-start">
         <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-muted-foreground">Who did what</h2>
         <ol className="relative space-y-3 border-l border-border pl-4">
           {activity.map((a) => (
@@ -407,5 +408,6 @@ export default function HackathonDetail() {
         </ol>
       </aside>
     </main>
+    </div>
   );
 }
