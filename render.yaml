@@ -1,0 +1,27 @@
+databases:
+  - name: hackpilot-db
+    plan: free
+    databaseName: hackpilot
+    user: hackpilot
+
+services:
+  - type: web
+    name: hackpilot
+    runtime: node
+    plan: free
+    buildCommand: corepack enable && pnpm install --frozen-lockfile && NITRO_PRESET=render_com pnpm build
+    startCommand: corepack enable && pnpm migrate:production && node .output/server/index.mjs
+    healthCheckPath: /_agent-native/ping
+    envVars:
+      - key: NODE_VERSION
+        value: "22.22.0"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: hackpilot-db
+          property: connectionString
+      - key: BETTER_AUTH_SECRET
+        generateValue: true
+      - key: AGENT_ENGINE_PREFER_BYO_KEY
+        value: "true"
+      - key: GOOGLE_GENERATIVE_AI_API_KEY
+        sync: false
