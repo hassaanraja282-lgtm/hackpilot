@@ -10,7 +10,7 @@ services:
     runtime: node
     plan: free
     buildCommand: corepack enable && pnpm install --frozen-lockfile && NITRO_PRESET=render_com pnpm build
-    startCommand: corepack enable && pnpm migrate:production && node .output/server/index.mjs
+    startCommand: corepack enable && pnpm migrate:production && env -u RENDER node .output/server/index.mjs
     healthCheckPath: /_agent-native/ping
     envVars:
       - key: NODE_VERSION
@@ -23,5 +23,9 @@ services:
         generateValue: true
       - key: AGENT_ENGINE_PREFER_BYO_KEY
         value: "true"
+      # Render is a long-lived Node server, not serverless; the server runs with
+      # RENDER unset so agent runs are not clamped to the 40s serverless budget.
+      - key: AGENT_NATIVE_SELF_DISPATCH_URL
+        value: http://127.0.0.1:10000
       - key: GOOGLE_GENERATIVE_AI_API_KEY
         sync: false
